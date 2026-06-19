@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import AsyncMediaImage from './AsyncMediaImage'
 
 const fallbackCategories = [
   {
@@ -67,6 +68,19 @@ function TopCategoriesSection({ categories = [], isLoading = false, errorMessage
             key={category.id ?? category.name}
             className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
           >
+            <div className={`relative h-40 bg-gradient-to-br ${category.accent}`}>
+              {category.mediaSource ? (
+                <AsyncMediaImage
+                  source={category.mediaSource}
+                  alt={category.name}
+                  className="h-full w-full"
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center text-5xl" aria-hidden="true">
+                  {category.icon}
+                </div>
+              )}
+            </div>
             <div className={`pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-br ${category.accent}`} aria-hidden="true" />
 
             <div className="relative p-4">
@@ -80,7 +94,7 @@ function TopCategoriesSection({ categories = [], isLoading = false, errorMessage
               <p className="mt-2 mb-4 min-h-[52px] text-sm leading-6 text-slate-600">{category.description}</p>
 
               <Link
-                to="/categories"
+                to={category.id ? `/products?id=${encodeURIComponent(category.id)}` : '/products'}
                 className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white transition group-hover:bg-red-700"
               >
                 Explore

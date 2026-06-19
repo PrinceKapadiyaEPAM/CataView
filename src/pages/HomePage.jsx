@@ -36,6 +36,13 @@ function mapCategory(item, index) {
     id: item?.id ?? item?.categoryId ?? name,
     name,
     description,
+    mediaSource:
+      item?.imagePath ??
+      item?.imageUrl ??
+      item?.image ??
+      item?.thumbnail ??
+      item?.mediaPath ??
+      null,
     icon: style.icon,
     accent: style.accent,
     tag: style.tag,

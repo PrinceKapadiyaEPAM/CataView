@@ -9,6 +9,7 @@ import AboutPage from './pages/AboutPage'
 import CategoriesPage from './pages/CategoriesPage'
 import ContactPage from './pages/ContactPage'
 import HomePage from './pages/HomePage'
+import ProductDetailPage from './pages/ProductDetailPage'
 import ProductsPage from './pages/ProductsPage'
 
 function App() {
@@ -120,6 +121,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/products" element={<ProductsPage hasAccessToken={hasAccessToken} />} />
+        <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/about" element={<AboutPage companyData={publicInfo?.company} />} />
         <Route path="/contact" element={<ContactPage companyData={publicInfo?.company} contactData={publicInfo?.contact} />} />
         <Route path="*" element={<Navigate to="/" replace />} />

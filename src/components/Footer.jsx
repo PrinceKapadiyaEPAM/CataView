@@ -1,7 +1,18 @@
 import { Link } from 'react-router-dom'
 
-const defaultShopLinks = ['About Us', 'Contact Us', 'Privacy Policy', 'Terms & Conditions']
-const defaultAccountLinks = ['My Account', 'Order History', 'Wishlist', 'Support']
+const fixedShopLinks = [
+  { label: 'About Us', path: '/about' },
+  { label: 'Contact Us', path: '/contact' },
+  { label: 'Privacy Policy', path: '/privacy' },
+  { label: 'Terms & Conditions', path: '/terms' },
+]
+
+const fixedAccountLinks = [
+  { label: 'My Account', path: '/account' },
+  { label: 'Order History', path: '/orders' },
+  { label: 'Wishlist', path: '/wishlist' },
+]
+
 const defaultPayments = ['VISA', 'MasterCard', 'PayPal']
 
 // Helper to extract text from string or object
@@ -24,8 +35,6 @@ function Footer({ footerData = {}, companyData = {}, contactData = {} }) {
     aboutTitle = 'Why People Like Us!',
     aboutText = 'Reliable quality, fair pricing, and smooth ordering for restaurants and retailers.',
     newsletter = { placeholder: 'Your Email', buttonText: 'Subscribe Now' },
-    shopLinks = defaultShopLinks,
-    accountLinks = defaultAccountLinks,
     payments = defaultPayments,
     copyrightText = `© CataView ${year}, All rights reserved.`
   } = footerData
@@ -34,12 +43,10 @@ function Footer({ footerData = {}, companyData = {}, contactData = {} }) {
     addressLine1 = '42 Flavor Street',
     city = 'NY',
     email = 'hello@cataview.com',
-    phone = '+1 (800) 123-4567'
+    mobile = '+1 (800) 123-4567'
   } = contactData
 
   // Ensure arrays are valid
-  const safeShopLinks = Array.isArray(shopLinks) ? shopLinks : defaultShopLinks
-  const safeAccountLinks = Array.isArray(accountLinks) ? accountLinks : defaultAccountLinks
   const safePayments = Array.isArray(payments) ? payments : defaultPayments
 
   return (
@@ -90,8 +97,12 @@ function Footer({ footerData = {}, companyData = {}, contactData = {} }) {
           <section>
             <h3 className="m-0 text-xl font-semibold text-white sm:text-2xl">Shop Info</h3>
             <ul className="mt-4 space-y-2 text-base text-slate-300 sm:text-lg">
-              {safeShopLinks.map((item, idx) => (
-                <li key={`shop-${idx}`}>{getText(item)}</li>
+              {fixedShopLinks.map((item) => (
+                <li key={item.path}>
+                  <Link to={item.path} className="transition hover:text-lime-300">
+                    {item.label}
+                  </Link>
+                </li>
               ))}
             </ul>
           </section>
@@ -99,8 +110,12 @@ function Footer({ footerData = {}, companyData = {}, contactData = {} }) {
           <section>
             <h3 className="m-0 text-xl font-semibold text-white sm:text-2xl">Account</h3>
             <ul className="mt-4 space-y-2 text-base text-slate-300 sm:text-lg">
-              {safeAccountLinks.map((item, idx) => (
-                <li key={`account-${idx}`}>{getText(item)}</li>
+              {fixedAccountLinks.map((item) => (
+                <li key={item.path}>
+                  <Link to={item.path} className="transition hover:text-lime-300">
+                    {item.label}
+                  </Link>
+                </li>
               ))}
             </ul>
           </section>
@@ -110,7 +125,7 @@ function Footer({ footerData = {}, companyData = {}, contactData = {} }) {
             <ul className="mt-4 space-y-2 break-words text-base text-slate-300 sm:text-lg">
               <li>Address: {addressLine1}, {city}</li>
               <li>Email: {email}</li>
-              <li>Phone: {phone}</li>
+              <li>Mobile: {mobile}</li>
               <li>Payments accepted</li>
             </ul>
             <div className="mt-4 flex flex-wrap gap-2">

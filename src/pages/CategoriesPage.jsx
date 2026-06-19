@@ -208,7 +208,7 @@ function CategoriesPage() {
                         <p className="mb-4 mt-2 min-h-[52px] text-sm leading-6 text-slate-600">{category.description}</p>
 
                         <Link
-                          to="/products"
+                          to={category.id ? `/products?id=${encodeURIComponent(category.id)}` : '/products'}
                           className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white transition group-hover:bg-red-700"
                         >
                           Explore

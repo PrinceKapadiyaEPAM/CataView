@@ -1,26 +1,47 @@
 import { useEffect, useRef, useState } from 'react'
 import { getPublicMediaBlob } from '../api/inventoryApi'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://localhost:7200'
+
+function normalizePath(path) {
+  if (!path) return null
+  const normalized = String(path).trim().replace(/\\/g, '/')
+  if (!normalized) return null
+
+  if (normalized.startsWith('/uploads/')) {
+    return normalized
+  }
+
+  if (normalized.startsWith('uploads/')) {
+    return `/${normalized}`
+  }
+
+  if (normalized.includes('/uploads/')) {
+    const uploadsIndex = normalized.indexOf('/uploads/')
+    return normalized.slice(uploadsIndex)
+  }
+
+  return null
+}
+
+function buildMediaUrl(path) {
+  return `${API_BASE_URL}/api/public/media?path=${encodeURIComponent(path)}`
+}
+
 function extractMediaPath(source) {
   if (!source || typeof source !== 'string') return null
 
   const trimmed = source.trim()
   if (!trimmed) return null
 
-  if (trimmed.startsWith('/uploads/')) {
-    return trimmed
-  }
-
-  if (trimmed.includes('/uploads/')) {
-    const uploadsIndex = trimmed.indexOf('/uploads/')
-    return trimmed.slice(uploadsIndex)
-  }
+  const normalizedFromRaw = normalizePath(trimmed)
+  if (normalizedFromRaw) return normalizedFromRaw
 
   if (trimmed.includes('path=')) {
     try {
       const parsed = new URL(trimmed, window.location.origin)
       const queryPath = parsed.searchParams.get('path')
-      return queryPath || null
+      return normalizePath(queryPath)
     } catch {
       return null
     }
@@ -82,7 +103,10 @@ function AsyncMediaImage({ source, alt, className }) {
         if (!isMounted || error?.name === 'CanceledError' || error?.name === 'AbortError') {
           return
         }
-        setStatus('error')
+
+        // Fallback to direct URL so images still render if blob fetch fails.
+        setResolvedSrc(buildMediaUrl(mediaPath))
+        setStatus('loaded')
       }
     }
 

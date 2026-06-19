@@ -26,8 +26,13 @@ export async function getPublicInfo() {
   return response.data
 }
 
-export async function getCatalogue() {
-  const response = await api.get(endpoints.catalogue)
+export async function getCatalogue(params) {
+  const response = await api.get(endpoints.catalogue, { params })
+  return response.data
+}
+
+export async function getCatalogueById(productId) {
+  const response = await api.get(endpoints.catalogueById(productId))
   return response.data
 }
 

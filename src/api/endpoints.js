@@ -6,4 +6,5 @@ export const endpoints = {
   media: '/api/public/media',
   categories: '/api/categories',
   catalogue: '/api/b2b/catalogue',
+  catalogueById: (productId) => `/api/b2b/catalogue/${encodeURIComponent(productId)}`,
 }
