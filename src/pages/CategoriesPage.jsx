@@ -42,7 +42,6 @@ function mapCategory(item, index) {
       item?.thumbnail ??
       item?.mediaPath ??
       null,
-    icon: style.icon,
     accent: style.accent,
     tag: style.tag,
   }
@@ -198,7 +197,6 @@ function CategoriesPage() {
                           />
                         ) : (
                           <div className="flex h-full items-center justify-center text-5xl" aria-hidden="true">
-                            {category.icon}
                           </div>
                         )}
                       </div>

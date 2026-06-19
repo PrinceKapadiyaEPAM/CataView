@@ -43,7 +43,6 @@ function mapCategory(item, index) {
       item?.thumbnail ??
       item?.mediaPath ??
       null,
-    icon: style.icon,
     accent: style.accent,
     tag: style.tag,
   }
